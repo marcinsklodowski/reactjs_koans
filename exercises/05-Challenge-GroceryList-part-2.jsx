@@ -24,7 +24,7 @@ class GroceryList extends React.Component {
     super(props);
     this.state = {
       groceries: [
-        { name: "Apples" }
+        {name: "Apples"}
       ],
       newGroceryName: ""
     };
@@ -43,29 +43,42 @@ class GroceryList extends React.Component {
   // Hint #2: Remember about the case where input is empty.
   // Hint #3: Name of the new grocery item will be stored in `this.state.newGroceryName`.
   addGroceryItem() {
-    // Put your code here
+    let newGroceryName = this.state.newGroceryName;
+    if (newGroceryName === '') {
+      return;
+    }
+
+    let newGroceries = this.state.groceries.concat(
+      {name: newGroceryName}
+    )
+    this.setState({
+        groceries: newGroceries,
+        newGroceryName: ""
+      }
+    )
   }
 
   render() {
     let groceriesComponents = [],
-        newProductInput,
-        newProductAddButton;
+      newProductInput,
+      newProductAddButton;
 
-    for(var index = 0; index < this.state.groceries.length; index++) {
+    for (var index = 0; index < this.state.groceries.length; index++) {
       groceriesComponents.push(
-          <GroceryListItem
-            grocery={this.state.groceries[index]}
-          />
+        <GroceryListItem
+          grocery={this.state.groceries[index]}
+        />
       );
     }
 
     // Here are components for task #2.
     newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
-    // Something is missing here... Will anything happen if you click this button now?
-    newProductAddButton = <button className='add-product'>Add new Product</button>;
+    newProductAddButton = <button className='add-product' onClick={this.addGroceryItem}>Add new Product</button>;
 
     return (
       <div>
+        {newProductInput}
+        {newProductAddButton}
         <ul>
           {groceriesComponents}
         </ul>
